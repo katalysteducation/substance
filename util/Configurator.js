@@ -74,6 +74,7 @@ class Configurator {
       labels: {},
       lang: 'en_US',
       SaveHandlerClass: null,
+      IconProviderClass: FontAwesomeIconProvider,
       ToolGroup: ToolGroup,
     }
   }
@@ -524,8 +525,13 @@ class Configurator {
     })
   }
 
+  setIconProvider(IconProviderClass) {
+    this.config.IconProviderClass = IconProviderClass
+  }
+
   getIconProvider() {
-    return new FontAwesomeIconProvider(this.config.icons)
+    let IconProviderClass = this.config.IconProviderClass
+    return new IconProviderClass(this.config.icons)
   }
 
   getLabelProvider() {
