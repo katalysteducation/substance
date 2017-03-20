@@ -7,7 +7,11 @@ class AbstractIsolatedNodeComponent extends Component {
     super(...args)
 
     this.name = this.props.node.id
-    this._id = this.context.surface.id +'/'+this.name
+    if (this.context.surface) {
+      this._id = this.context.surface.id +'/'+this.name
+    } else {
+      this._id = this.name
+    }
     this._state = {
       selectionFragment: null
     }
