@@ -72,6 +72,7 @@ class Configurator {
       SaveHandlerClass: null,
       editorOptions: [],
       IconProviderClass: FontAwesomeIconProvider,
+      ToolGroup: ToolGroup,
     }
   }
 
@@ -211,9 +212,12 @@ class Configurator {
     }
   }
 
+  setDefaultToolGroupClass(ToolGroup) {
+    this.config.ToolGroup = ToolGroup
+  }
+
   addToolGroup(name, ToolGroupClass, options) {
     options = options || {}
-    ToolGroupClass = ToolGroupClass || ToolGroup
 
     this.config.toolGroups.set(name, {
       name: name,
