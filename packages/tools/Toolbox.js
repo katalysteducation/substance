@@ -44,6 +44,7 @@ class Toolbox extends Component {
   getActiveToolGroups() {
     this._hasActiveTools = false
 
+    let config = this.context.editorSession.getConfigurator().config
     let toolGroups = this.context.toolGroups
     let activeToolGroupNames = this.getActiveToolGroupNames()
     let activeToolGroups = new Map()
@@ -55,7 +56,7 @@ class Toolbox extends Component {
       let activeTools = this.getActiveTools(tools, toolGroupName)
       activeToolGroups.set(toolGroupName, {
         name: toolGroupName,
-        Class: toolGroup.Class,
+        Class: toolGroup.Class || config.ToolGroup,
         tools: activeTools
       })
     })

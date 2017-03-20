@@ -73,7 +73,8 @@ class Configurator {
       icons: {},
       labels: {},
       lang: 'en_US',
-      SaveHandlerClass: null
+      SaveHandlerClass: null,
+      ToolGroup: ToolGroup,
     }
   }
 
@@ -190,9 +191,12 @@ class Configurator {
     }
   }
 
+  setDefaultToolGroupClass(ToolGroup) {
+    this.config.ToolGroup = ToolGroup
+  }
+
   addToolGroup(name, ToolGroupClass, options) {
     options = options || {}
-    ToolGroupClass = ToolGroupClass || ToolGroup
 
     this.config.toolGroups.set(name, {
       name: name,
