@@ -1,4 +1,4 @@
-import { keys, parseKeyEvent } from '../util'
+import { parseKeyEvent } from '../util'
 import ExecuteCommandHandler from './ExecuteCommandHandler'
 
 class KeyboardManager {
@@ -66,7 +66,7 @@ class KeyboardManager {
 function parseCombo(combo) {
   let frags = combo.split('+')
   let data = {
-    keyCode: -1
+    key: null
   }
   for (var i = 0; i < frags.length; i++) {
     let frag = frags[i].toUpperCase()
@@ -93,13 +93,7 @@ function parseCombo(combo) {
         break
       }
       default:
-        if (frag.length === 1) {
-          data.keyCode = frag.charCodeAt(0)
-        } else if (keys.hasOwnProperty(frag)) {
-          data.keyCode = keys[frag]
-        } else {
-          throw new Error('Unsupported keyboard command: '+ combo)
-        }
+        data.key = frag
     }
   }
   return parseKeyEvent(data)

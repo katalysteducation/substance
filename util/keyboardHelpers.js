@@ -13,7 +13,7 @@ export function parseKeyEvent(event, onlyModifiers) {
   if (event.metaKey) frags.push('META')
   if (event.shiftKey) frags.push('SHIFT')
   if (!onlyModifiers) {
-    frags.push(event.keyCode)
+    frags.push(event.key.toUpperCase())
   }
   return frags.join('+')
 }
