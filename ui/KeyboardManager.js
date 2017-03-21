@@ -1,4 +1,3 @@
-import keys from '../util/keys'
 import ExecuteCommandHandler from './ExecuteCommandHandler'
 
 class KeyboardManager {
@@ -76,14 +75,14 @@ function generateKey(event) {
   if (event.ctrlKey) frags.push('CTRL')
   if (event.metaKey) frags.push('META')
   if (event.shiftKey) frags.push('SHIFT')
-  frags.push(event.keyCode)
+  frags.push(event.key)
   return frags.join('+')
 }
 
 function parseCombo(combo) {
   let frags = combo.split('+')
   let data = {
-    keyCode: -1
+    key: null
   }
   for (var i = 0; i < frags.length; i++) {
     let frag = frags[i].toUpperCase()
@@ -110,13 +109,7 @@ function parseCombo(combo) {
         break
       }
       default:
-        if (frag.length === 1) {
-          data.keyCode = frag.charCodeAt(0)
-        } else if (keys.hasOwnProperty(frag)) {
-          data.keyCode = keys[frag]
-        } else {
-          throw new Error('Unsupported keyboard command: '+ combo)
-        }
+        data.key = frag
     }
   }
   return generateKey(data)
