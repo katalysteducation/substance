@@ -75,7 +75,7 @@ function generateKey(event) {
   if (event.ctrlKey) frags.push('CTRL')
   if (event.metaKey) frags.push('META')
   if (event.shiftKey) frags.push('SHIFT')
-  frags.push(event.key)
+  frags.push(event.key.toUpperCase())
   return frags.join('+')
 }
 
