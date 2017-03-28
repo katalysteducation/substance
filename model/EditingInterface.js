@@ -145,7 +145,7 @@ class EditingInterface {
   // insert an inline node with given data at the current selection
   insertInlineNode(inlineNode) {
     if (this._selection && !this._selection.isNull()) {
-      this._impl.insertInlineNode(this, inlineNode)
+      return this._impl.insertInlineNode(this, inlineNode)
     }
   }
 
