@@ -777,6 +777,30 @@ class AttributesMapAdapter {
     }
   }
 
+  set(name, value) {
+    this.attributes.setNamedItem(name, value)
+  }
+
+  keys() {
+    let keys = []
+    let S = this.size
+    for (let i = 0; i < S; i++) {
+      const item = this.attributes.item(i)
+      keys.push(item.name)
+    }
+    return keys
+  }
+
+  values() {
+    let values = []
+    let S = this.size
+    for (let i = 0; i < S; i++) {
+      const item = this.attributes.item(i)
+      values.push(item.name)
+    }
+    return values
+  }
+
   entries() {
     let entries = []
     let S = this.size
@@ -787,7 +811,4 @@ class AttributesMapAdapter {
     return entries
   }
 
-  set() {
-    throw new Error('This is a read-only map.')
-  }
 }
