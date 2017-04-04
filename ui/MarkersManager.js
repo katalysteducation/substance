@@ -115,15 +115,19 @@ class MarkersIndex {
   }
 
   reset() {
-    this._documentMarkers = new ArrayTree()
-    this._surfaceMarkers = {}
-    this._containerMarkers = {}
+    this.clear()
     let doc = this.document
     forEach(doc.getNodes(), (node) => {
       if (this.select(node)) {
         this.create(node)
       }
     })
+  }
+
+  clear() {
+    this._documentMarkers = new ArrayTree()
+    this._surfaceMarkers = {}
+    this._containerMarkers = {}
   }
 
   select(node) {
