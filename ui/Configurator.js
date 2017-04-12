@@ -508,7 +508,7 @@ class Configurator {
   getSurfaceCommandNames() {
     var commands = this.getCommands()
     var commandNames = commands.map(function(C) {
-      return C.type
+      return C.name
     })
     return commandNames
   }
