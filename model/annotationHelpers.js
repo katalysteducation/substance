@@ -1,4 +1,4 @@
-import { isArray, uuid } from '../util'
+import { isArray, isArrayEqual, uuid } from '../util'
 
 
 // A collection of methods to update annotations
@@ -195,30 +195,20 @@ function transferAnnotations(doc, path, offset, newPath, newOffset) {
     }
   }
 
-  // TODO: fix support for container annotations
-  // // same for container annotation anchors
-  // index = doc.getIndex('container-annotation-anchors');
-  // var anchors = index.get(path);
-  // var containerAnnoIds = [];
-  // forEach(anchors, function(anchor) {
-  //   containerAnnoIds.push(anchor.id);
-  //   var start = anchor.offset;
-  //   if (offset <= start) {
-  //     // TODO: Use coordintate ops!
-  //     let coor = anchor.isStart?'start':'end'
-  //     doc.set([anchor.id, coor, 'path'], newPath);
-  //     doc.set([anchor.id, coor, 'offset'], newOffset + anchor.offset - offset);
-  //   }
-  // });
-  // // check all anchors after that if they have collapsed and remove the annotation in that case
-  // forEach(uniq(containerAnnoIds), function(id) {
-  //   var anno = doc.get(id);
-  //   var annoSel = anno.getSelection();
-  //   if(annoSel.isCollapsed()) {
-  //     // console.log("...deleting container annotation because it has collapsed" + id);
-  //     doc.delete(id);
-  //   }
-  // });
+  annotations = doc.getIndex('container-annotations')
+  annotations.byId.forEach(anno => {
+    if (isArrayEqual(path, anno.start.path) && offset <= anno.start.offset) {
+      // We need to move the start anchor
+      doc.set([anno.id, 'start', 'path'], newPath)
+      doc.set([anno.id, 'start', 'offset'], newOffset + anno.start.offset - offset)
+    }
+
+    if (isArrayEqual(path, anno.end.path) && offset <= anno.end.offset) {
+      // We need to move the end anchor
+      doc.set([anno.id, 'end', 'path'], newPath)
+      doc.set([anno.id, 'end', 'offset'], newOffset + anno.end.offset - offset)
+    }
+  })
 }
 
 /*
