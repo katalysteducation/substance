@@ -23,7 +23,8 @@ class Clipboard {
 
     let htmlConverters = []
     if (config.converterRegistry) {
-      htmlConverters = config.converterRegistry.get('html').values() || []
+      let format = (config.editorOptions || {}).clipboardFormat || 'html'
+      htmlConverters = config.converterRegistry.get(format).values() || []
     }
     let _config = {
       schema: schema,
