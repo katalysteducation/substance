@@ -25,7 +25,7 @@ class Transaction extends EditingInterface {
     @param {Document} doc
   */
   constructor(doc, editorSession) {
-    super()
+    super(doc, editorSession.configurator)
 
     // TransactionDocument is essentially a clone of the document used to apply a sequence of document operations
     // without touching the original document

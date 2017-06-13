@@ -73,6 +73,7 @@ class Configurator {
       editorOptions: [],
       IconProviderClass: FontAwesomeIconProvider,
       ToolGroup: ToolGroup,
+      nodeEditing: {},
     }
   }
 
@@ -379,6 +380,10 @@ class Configurator {
     this.config.editingBehaviors.push(editingBehavior)
   }
 
+  addNodeEditing(type, Class) {
+    this.config.nodeEditing[type] = Class
+  }
+
   addMacro(macro) {
     this.config.macros.push(macro)
   }
@@ -563,6 +568,10 @@ class Configurator {
       behavior.register(editingBehavior)
     })
     return editingBehavior
+  }
+
+  getNodeEditing() {
+    return this.config.nodeEditing
   }
 
   getMacros() {

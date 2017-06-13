@@ -79,13 +79,17 @@ export function getRangeInfo(doc, node, start, end) {
 }
 
 export function setCursor(tx, node, containerId, mode) {
+  tx.setSelection(selectCursor(tx, node, containerId, mode))
+}
+
+export function selectCursor(tx, node, containerId, mode) {
   if (node.isText()) {
     let offset = 0
     if (mode === 'after') {
       let text = node.getText()
       offset = text.length
     }
-    tx.setSelection({
+    return tx.createSelection({
       type: 'property',
       path: node.getTextPath(),
       startOffset: offset,
@@ -100,14 +104,14 @@ export function setCursor(tx, node, containerId, mode) {
       item = node.getFirstItem()
       offset = 0
     }
-    tx.setSelection({
+    return tx.createSelection({
       type: 'property',
       path: item.getTextPath(),
       startOffset: offset,
       containerId: containerId
     })
   } else {
-    tx.setSelection({
+    return tx.createSelection({
       type: 'node',
       containerId: containerId,
       nodeId: node.id,

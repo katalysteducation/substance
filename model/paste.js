@@ -66,6 +66,7 @@ function _convertPlainTextToDocument(tx, args) {
     id: Document.SNIPPET_ID,
     nodes: []
   })
+  let cntedit = tx.getEditing(container)
   let node
   if (lines.length === 1) {
     node = pasteDoc.create({
@@ -73,7 +74,7 @@ function _convertPlainTextToDocument(tx, args) {
       type: defaultTextType,
       content: lines[0]
     })
-    container.show(node.id)
+    cntedit.show(pasteDoc, container, node)
   } else {
     for (let i = 0; i < lines.length; i++) {
       node = pasteDoc.create({
@@ -81,7 +82,7 @@ function _convertPlainTextToDocument(tx, args) {
         type: defaultTextType,
         content: lines[i]
       })
-      container.show(node.id);
+      cntedit.show(pasteDoc, container, node)
     }
   }
   return pasteDoc
@@ -113,6 +114,7 @@ function _pasteDocument(tx, pasteDoc) {
   let sel = tx.selection
   let containerId = sel.containerId
   let container = tx.get(containerId)
+  let cntedit = tx.getEditing(container)
   let insertPos
   if (sel.isPropertySelection()) {
     let startPath = sel.start.path
@@ -123,7 +125,7 @@ function _pasteDocument(tx, pasteDoc) {
     // then we can simply insert after the node
     if (text.length === 0) {
       insertPos = startPos
-      container.hide(nodeId)
+      cntedit.hide(tx, container, nodeId)
       documentHelpers.deleteNode(tx, tx.get(nodeId))
     } else if ( text.length === sel.start.offset ) {
       insertPos = startPos + 1
@@ -155,7 +157,7 @@ function _pasteDocument(tx, pasteDoc) {
     let newId = _transferWithDisambiguatedIds(node.getDocument(), tx, node.id, visited)
     // get the node in the targetDocument
     node = tx.get(newId)
-    container.show(newId, insertPos++)
+    cntedit.show(tx, container, newId, insertPos++)
     insertedNodes.push(node)
   }
 

@@ -1688,7 +1688,7 @@ test("L8-1: Toggling a paragraph into a List", (t) => {
     containerId: 'body'
   })
   editorSession.transaction((tx)=>{
-    tx.toggleList({ ordered: false})
+    tx.selection = tx.getEditing('list').toggle(tx, tx.selection, { ordered: false})
   })
   let body = doc.get('body')
   t.equal(body.getLength(), 1, 'There should be 1 node')
@@ -1710,7 +1710,7 @@ test("L8-2: Toggling first list-item into a paragraph", (t) => {
     containerId: 'body'
   })
   editorSession.transaction((tx)=>{
-    tx.toggleList()
+    tx.selection = tx.getEditing('list').toggle(tx, tx.selection)
   })
   let body = doc.get('body')
   t.equal(body.getLength(), 2, 'There should be 2 nodes')
@@ -1732,7 +1732,7 @@ test("L8-3: Toggling last list-item into a paragraph", (t) => {
     containerId: 'body'
   })
   editorSession.transaction((tx)=>{
-    tx.toggleList()
+    tx.selection = tx.getEditing('list').toggle(tx, tx.selection)
   })
   let body = doc.get('body')
   t.equal(body.getLength(), 2, 'There should be 2 nodes')
@@ -1754,7 +1754,7 @@ test("L8-4: Toggling a middle list-item into a paragraph splitting the list", (t
     containerId: 'body'
   })
   editorSession.transaction((tx)=>{
-    tx.toggleList()
+    tx.selection = tx.getEditing('list').toggle(tx, tx.selection)
   })
   let body = doc.get('body')
   t.equal(body.getLength(), 3, 'There should be 3 nodes')
@@ -1779,7 +1779,7 @@ test("L8-5: Toggling the only list-item of a list into a paragraph", (t) => {
     containerId: 'body'
   })
   editorSession.transaction((tx)=>{
-    tx.toggleList()
+    tx.selection = tx.getEditing('list').toggle(tx, tx.selection)
   })
   let body = doc.get('body')
   t.equal(body.getLength(), 1, 'There should be one node left')

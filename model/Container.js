@@ -62,6 +62,7 @@ class Container extends DocumentNode {
   }
 
   show(nodeId, pos) {
+    console.error('Deprecated: use ContainerEditing#show instead')
     var doc = this.getDocument()
     var arg1 = arguments[0]
     if (!isString(arg1)) {
@@ -76,6 +77,7 @@ class Container extends DocumentNode {
   }
 
   hide(nodeId) {
+    console.error('Deprecated: use ContainerEditing#hide instead')
     var doc = this.getDocument()
     var pos = this.getPosition(nodeId)
     if (pos >= 0) {
@@ -208,6 +210,7 @@ class Container extends DocumentNode {
 
 }
 
+Container.editing = 'container'
 Container.prototype._isContainer = true
 
 Container.schema = {

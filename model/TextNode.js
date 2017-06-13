@@ -31,6 +31,7 @@ class TextNode extends DocumentNode {
 }
 
 TextNode.isText = true
+TextNode.editing = 'text'
 
 TextNode.schema = {
   type: "text",

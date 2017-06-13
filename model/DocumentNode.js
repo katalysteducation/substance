@@ -170,6 +170,10 @@ class DocumentNode extends DataNode {
   // Node categories
   // --------------------
 
+  getEditing() {
+    return this.constructor.editing || this.type
+  }
+
   /**
     @returns {Boolean} true if node is a block node (e.g. Paragraph, Figure, List, Table)
   */

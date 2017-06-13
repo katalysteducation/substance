@@ -1,3 +1,4 @@
+import ListEditing from './ListEditing'
 import ListNode from './ListNode'
 import ListItemNode from './ListItemNode'
 import ListComponent from './ListComponent'
@@ -11,6 +12,7 @@ export default {
   configure: function(config, {toolGroup, disableCollapsedCursor}) {
     config.addNode(ListNode)
     config.addNode(ListItemNode)
+    config.addNodeEditing('list', ListEditing)
     config.addComponent('list', ListComponent)
 
     config.addCommand('insert-unordered-list', InsertListCommand, {

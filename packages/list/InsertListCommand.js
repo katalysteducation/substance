@@ -15,7 +15,7 @@ class InsertListCommand extends Command {
     let ordered = this.config.ordered
     let editorSession = params.editorSession
     editorSession.transaction((tx) => {
-      tx.toggleList({ ordered: ordered })
+      tx.selection = tx.getEditing('list').toggle(tx, tx.selection, { ordered: ordered })
     })
   }
 }

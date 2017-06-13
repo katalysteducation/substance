@@ -14,11 +14,11 @@ import Selection from './Selection'
  */
 class EditingInterface {
 
-  constructor(doc) {
+  constructor(doc, configurator) {
     this._document = doc
     this._selection = null
     // TODO: allow for custom editing implementation
-    this._impl = new Editing()
+    this._impl = new Editing(configurator ? configurator.getNodeEditing() : {})
     this._direction = null
   }
 
@@ -116,6 +116,10 @@ class EditingInterface {
 
   /* High-level editing */
 
+  getEditing(type) {
+    return this._impl.getEditing(type)
+  }
+
   annotate(annotationData) {
     const sel = this._selection
     if (sel && (sel.isPropertySelection() || sel.isContainerSelection())) {
@@ -187,13 +191,6 @@ class EditingInterface {
     const sel = this._selection
     if (sel && !sel.isNull()) {
       return this._impl.switchTextType(this, nodeData)
-    }
-  }
-
-  toggleList(params) {
-    const sel = this._selection
-    if (sel && !sel.isNull()) {
-      return this._impl.toggleList(this, params)
     }
   }
 
