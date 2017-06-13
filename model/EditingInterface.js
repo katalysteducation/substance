@@ -127,9 +127,9 @@ class EditingInterface {
     }
   }
 
-  break() {
+  break(options={}) {
     if (this._selection && !this._selection.isNull()) {
-      this._impl.break(this)
+      this._impl.break(this, options)
     }
   }
 
