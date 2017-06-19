@@ -112,6 +112,10 @@ class Node extends EventEmitter {
     return data
   }
 
+  toString() {
+    return `[${this.constructor.name} (${this.type}) node id: ${this.id}]`
+  }
+
   get type() {
     return this.constructor.type
   }
