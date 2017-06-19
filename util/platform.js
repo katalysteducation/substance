@@ -93,7 +93,7 @@ function detect() {
 
   // TOOD: is there a more reliable way to detect NodeJS?
   if (typeof process !== 'undefined') {
-    platform.inNodeJS = true
+    // platform.inNodeJS = true
   }
 }
 
