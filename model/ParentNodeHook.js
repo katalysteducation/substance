@@ -1,4 +1,4 @@
-import { isArray } from '../util'
+import { isArray, forEach } from '../util'
 
 /*
   This is an experiment trying to have better support for data types with a hierarchical
@@ -34,74 +34,39 @@ class ParentNodeHook {
   _onOperationApplied(op) {
     const doc = this.doc
     const table = this.table
+
     let node = doc.get(op.path[0])
-    // TODO: instead of hard coding this here we should compile a matcher
-    // based on the document schema
-    switch(op.type) {
-      case 'create': {
-        switch (node.type) {
-          case 'list':
-            _setParent(node, node.items)
-            break
-          case 'list-item': {
-            _setRegisteredParent(node)
-            break
+    let schema, prop
+
+    switch (op.type) {
+      case 'create':
+        schema = node.getSchema()
+        forEach(schema, prop => {
+          if (prop.isReference() && prop.isOwned()) {
+            _setParent(node, node[prop.name])
           }
-          case 'table':
-            _setParent(node, node.cells)
-            break
-          case 'table-cell': {
-            _setRegisteredParent(node)
-            break
-          }
-          default:
-            //
+        })
+        _setRegisteredParent(node)
+        break
+
+      case 'update':
+        schema = node.getSchema()
+        prop = schema[op.path[1]]
+        if (prop.isReference && prop.isOwned() && op.diff.isInsert()) {
+          _setParent(node, op.diff.getValue())
         }
         break
-      }
-      case 'update': {
-        // ATTENTION: we only set parents but don't remove when they are deleted
-        // assuming that if the parent gets deleted, the children get deleted too
-        let update = op.diff
-        switch(node.type) {
-          case 'list':
-            if (op.path[1] === 'items') {
-              if (update.isInsert()) {
-                _setParent(node, update.getValue())
-              }
-            }
-            break
-          case 'table':
-            if (op.path[1] === 'cells') {
-              if (update.isInsert()) {
-                _setParent(node, update.getValue())
-              }
-            }
-            break
-          default:
-            //
+
+      case 'set':
+        schema = node.getSchema()
+        prop = schema[op.path[1]]
+        if (prop.isReference() && prop.isOwned()) {
+          _setParent(node, op.getValue())
         }
         break
-      }
-      case 'set': {
-        switch(node.type) {
-          case 'list':
-            if (op.path[1] === 'items') {
-              _setParent(node, op.getValue())
-            }
-            break
-          case 'table':
-            if (op.path[1] === 'cells') {
-              _setParent(node, op.getValue())
-            }
-            break
-          default:
-            //
-        }
-        break
-      }
+
       default:
-        //
+        break
     }
 
     function _setParent(parent, ids) {
