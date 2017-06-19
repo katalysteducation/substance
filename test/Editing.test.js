@@ -1798,7 +1798,8 @@ test("IND1: Indenting a ListItem", (t) => {
     containerId: 'body'
   })
   editorSession.transaction((tx) => {
-    tx.indent()
+    let list = tx.get(tx.selection.start.getNodeId()).getRoot()
+    tx.getEditing(list).indent(tx, list)
   })
   let li1 = doc.get('l1-1')
   t.equal(li1.level, 2, 'Indentation level should have increased')
@@ -1814,7 +1815,8 @@ test("IND2: Dedenting a ListItem", (t) => {
     containerId: 'body'
   })
   editorSession.transaction((tx) => {
-    tx.dedent()
+    let list = tx.get(tx.selection.start.getNodeId()).getRoot()
+    tx.getEditing(list).dedent(tx, list)
   })
   let li1 = doc.get('l1-1')
   t.equal(li1.level, 1, 'Indentation level should have decreased')

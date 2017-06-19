@@ -194,20 +194,6 @@ class EditingInterface {
     }
   }
 
-  indent() {
-    const sel = this._selection
-    if (sel && !sel.isNull()) {
-      return this._impl.indent(this)
-    }
-  }
-
-  dedent() {
-    const sel = this._selection
-    if (sel && !sel.isNull()) {
-      return this._impl.dedent(this)
-    }
-  }
-
   /* Legacy low-level API */
 
   getIndex(...args) {

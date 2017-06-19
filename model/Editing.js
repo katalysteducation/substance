@@ -445,41 +445,4 @@ export default class Editing {
 
     return newNode
   }
-
-  indent(tx) {
-    let sel = tx.selection
-    if (sel.isPropertySelection()) {
-      let nodeId = sel.start.getNodeId()
-      // ATTENTION: we need the root node here, e.g. the list, not the list items
-      let node = tx.get(nodeId).getRoot()
-      if (node.isList()) {
-        let itemId = sel.start.path[0]
-        let item = tx.get(itemId)
-        // Note: allowing only 3 levels
-        if (item && item.level<3) {
-          tx.set([itemId, 'level'], item.level+1)
-        }
-      }
-    } else if (sel.isContainerSelection()) {
-      console.error('TODO: support toggleList with ContainerSelection')
-    }
-  }
-
-  dedent(tx) {
-    let sel = tx.selection
-    if (sel.isPropertySelection()) {
-      let nodeId = sel.start.getNodeId()
-      // ATTENTION: we need the root node here, e.g. the list, not the list items
-      let node = tx.get(nodeId).getRoot()
-      if (node.isList()) {
-        let itemId = sel.start.path[0]
-        let item = tx.get(itemId)
-        if (item && item.level>1) {
-          tx.set([itemId, 'level'], item.level-1)
-        }
-      }
-    } else if (sel.isContainerSelection()) {
-      console.error('TODO: support toggleList with ContainerSelection')
-    }
-  }
 }

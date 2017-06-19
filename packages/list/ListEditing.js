@@ -4,6 +4,41 @@ import NodeEditing from '../../model/NodeEditing'
 import { selectCursor } from '../../model/selectionHelpers'
 
 export default class ListEditing extends NodeEditing {
+  indent(tx, list, coor) {
+    if (!coor) {
+      let sel = tx.selection
+      if (!sel.isPropertySelection()) {
+        console.error('TODO: support toggleList with ContainerSelection')
+        return
+      }
+      coor = tx.selection.start
+    }
+
+    let itemId = coor.path[0]
+    let item = tx.get(itemId)
+    // Note: allowing only 3 levels
+    if (item && item.level < 3) {
+      tx.set([itemId, 'level'], item.level + 1)
+    }
+  }
+
+  dedent(tx, list, coor) {
+    if (!coor) {
+      let sel = tx.selection
+      if (!sel.isPropertySelection()) {
+        console.error('TODO: support toggleList with ContainerSelection')
+        return
+      }
+      coor = tx.selection.start
+    }
+
+    let itemId = coor.path[0]
+    let item = tx.get(itemId)
+    if (item.level > 1) {
+      tx.set([itemId, 'level'], item.level - 1)
+    }
+  }
+
   splitNode(tx, list, coor, options={}) {
     let item = tx.get(coor.path[0])
     let itemPos = list.getItemPosition(item.id)
