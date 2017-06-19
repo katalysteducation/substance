@@ -103,6 +103,10 @@ class DocumentChange {
       let container = doc.get(anno.containerId, 'strict')
       let startPos = container.getPosition(anno.start.path[0])
       let endPos = container.getPosition(anno.end.path[0])
+      if (-1 === startPos || -1 === endPos) {
+        console.warn('Invalid container annotation', anno.id)
+        return
+      }
       for (let pos = startPos; pos <= endPos; pos++) {
         let node = container.getChildAt(pos)
         let path
