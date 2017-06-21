@@ -53,6 +53,7 @@
     "README.md",
     "package.json",
     "*.css",
+    "*.js",
     "vendor/css-select.js",
     "vendor/domutils.js",
     "vendor/entities.js",
