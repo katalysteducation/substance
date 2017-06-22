@@ -46,7 +46,7 @@
   },
   "files": [
     "dist",
-    "doc", "dom", "model", "packages", "test", "ui", "util",
+    "collab", "doc", "dom", "model", "packages", "test", "ui", "util",
     "CHANGELOG.md",
     "index.es.js",
     "LICENSE.md",
