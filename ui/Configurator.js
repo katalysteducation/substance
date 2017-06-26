@@ -75,6 +75,7 @@ class Configurator {
       ToolGroup: ToolGroup,
       nodeEditing: {},
     }
+    this._dirty = {}
   }
 
   // Record phase API
@@ -147,6 +148,7 @@ class Configurator {
       throw new Error('A converter needs an associated type.')
     }
     converters[converter.type] = converter
+    this._dirty.converters = true
   }
 
   /**
@@ -525,12 +527,13 @@ class Configurator {
     a HTML converter for Paragraphs.
   */
   getConverterRegistry() {
-    if (!this.converterRegistry) {
+    if (!this.converterRegistry || this._dirty.converters) {
       var converterRegistry = new Registry()
       forEach(this.config.converters, function(converters, name) {
         converterRegistry.add(name, new Registry(converters))
       })
       this.converterRegistry = converterRegistry
+      delete this._dirty.converters
     }
     return this.converterRegistry
   }
