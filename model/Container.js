@@ -148,10 +148,20 @@ class Container extends DocumentNode {
   }
 
   _lookupPosition(node) {
-    if (node.hasParent()) {
-      node = node.getRoot()
-    }
-    return this.getContent().indexOf(node.id)
+    let cache = this._isCaching ? this._cachedPositions || this._fillCache() : null
+    let pos = -1
+
+    do {
+      if (this._isCaching) {
+        pos = cache[node.id]
+        if (typeof pos !== 'number') pos = -1;
+      } else {
+        pos = this.getContent().indexOf(node.id)
+      }
+      node = node.parent
+    } while (node && pos === -1)
+
+    return pos
   }
 
   _enableCaching() {
